@@ -24,9 +24,6 @@
     			location.href=root+"/order/cart.do";
     		}
     	}
-    	
-		
-	
     </script> 
 </head>
 
@@ -64,17 +61,18 @@
                             	</tr>
                            	</c:if>
                          
-   							<c:if test="${cartList.size()>0}">
+   							<c:if test="${cartList.size()>0}">		
    								<c:forEach var="orderDto" items="${cartList}">
    								<c:set var="quantity" value="${orderDto.quantity}"/>
    								<c:set var="book_id" value="${orderDto.book_id}"/>
+   								<c:set var="eachPrice" value="${orderDto.quantity * orderDto.price}" />
    									<tr>
 	   									<td><img src="${orderDto.img_path}" style="height:60px; width: 40px;"/></td>
 		                                <td style="style:margin-top:20px;">${orderDto.book_name}</td>
 		                                <td>${orderDto.stock}</td>
 		                                <td><input class="form-control" type="text" name="quantity" value="${quantity}" oninput="changeQuantity('${book_id}',this,'${orderDto.price}')"/></td>
-		                                <td class="prices" id="${book_id}" >${orderDto.price}</td>
-		                                <td class="text-right"><input type="checkbox" class="checkBoxes" name="${book_id}" checked/></td>
+		                                <td class="prices" id="${book_id}">${eachPrice}</td>
+		                                <td class="text-right"><input type="checkbox" class="checkBoxes" name="${book_id}" oninput="changeQuantityCheck('${book_id}',this)" checked/></td>
 		                            </tr>
 		                            <c:set var="total" value="${total=total+orderDto.price}"/>
 		                            <input type="hidden" name="member_id" value="${member_id}"/> 

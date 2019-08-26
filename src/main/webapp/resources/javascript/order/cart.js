@@ -54,6 +54,29 @@ function changeQuantity(book_id, obj,price){
 	}
 	//alert(total);	
 	$("input[name=total]").val(total);
-	document.getElementById("totalPrice").innerHTML = total;
+	document.getElementById("totalPrice").innerHTML = total+"원";
 	
+}
+
+
+function changeQuantityCheck(book_id,obj){ //obj == this
+	var price = $("#"+book_id).text();
+	price = Number(price);
+	
+	if(obj.checked==false){
+		var total = $("input[name=total]").val();
+		total = Number(total);
+		total = total - price;
+		$("input[name=total]").val(total);
+		document.getElementById("totalPrice").innerHTML = total+"원";
+	}
+	else if(obj.checked==true){
+		var total = $("input[name=total]").val();
+		total = Number(total);
+		total = total + price;
+		$("input[name=total]").val(total);
+		document.getElementById("totalPrice").innerHTML = total+"원";
+	}
+	
+		
 }
