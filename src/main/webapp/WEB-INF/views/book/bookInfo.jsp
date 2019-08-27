@@ -120,7 +120,6 @@
                               <br/>저자:&nbsp;<b style="font-size:1.2em;">${bookInfoDto.author}</b>
                            </div>
                            <div class="book_volume">
-                           <c:if test="${ReviewDto.member_id != null}">
                               <form name="form" method="get">
                                  수량 : <input type=hidden name="sell_price" value="${bookInfoDto.price}">
                                  <input type="text" name="amount" id="amount" value="1" size="3" onchange="change();">
@@ -128,12 +127,7 @@
                            	     
                                  금액 : <input type="text" class="sell_price" name="sum" size="11" readonly>원
                               </form>
-                             </c:if>
-                          <c:if test="${ReviewDto.member_id == null || ReviewDto.member_id == ''}">
-                              <form name="form" method="get">
-     
-                              </form>
-                           </c:if>   
+
                            </div>
                            <div class="delivery">배송비:&nbsp;<b style="font-size:1.2em;">무료</b></div>
                         </div>

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,9 @@ public class BookInfoServiceImp implements BookInfoService {
 		
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		
+		HttpSession  session = request.getSession();
+	      
+	    String member_id = (String) session.getAttribute("id");
 		int book_id = Integer.parseInt(request.getParameter("book_id"));
 		BookAspect.logger.info(BookAspect.logMsg+"book_id:"+book_id);
 		
@@ -57,7 +60,7 @@ public class BookInfoServiceImp implements BookInfoService {
 		}
 			
 		mav.addObject("page",request.getParameter("page"));
-
+		mav.addObject("memeber_id", member_id);
 		mav.addObject("idList",idList);
 		mav.addObject("book_id",book_id);
 		mav.addObject("reviewList_size",reviewList.size());
