@@ -6,11 +6,28 @@
 function moveToCart(root, book_id){
 	   //alert(book_id);
 	   var quantity = document.form.amount.value;
+
 	   quantity = encodeURI(quantity);
-	   if(quantity == null){
+	   
+	   if(quantity == null || quantity == ""){
 		   quantity = 1;
 	   }
-	   location.href=root+"/order/cart.do?book_id="+book_id+"&amount="+quantity;
+
+	   $.ajax({
+			url : root + "/order/cart.do",
+			type : "GET",
+			data : {amount:quantity, book_id:book_id},
+			dataType : "text",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			success : function(data){
+				location.href=root+"/order/cart.do?";
+			},
+			error : function(){
+				alert("data 전송 실패");
+			}
+		});
+	   
+	   
 }
 
 

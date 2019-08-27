@@ -357,6 +357,7 @@ public class OrderServiceImp implements OrderService {
 		
 		String book_id = request.getParameter("book_id");
 		String amount = request.getParameter("amount");
+		System.out.println(amount + " ==========amount!!!==============" + book_id + "=============book_id========");
 		if(amount == null) {
 			amount = "1";
 		}
@@ -538,20 +539,24 @@ public class OrderServiceImp implements OrderService {
 							System.out.println("cookie 지우는 곳!!!!! " + bookIdList.get(i));
 							if(bookIdList.get(i) != null || bookIdList.get(i) != "") {
 								for(int j=0; j<cookiesList.length; j++) {
-									if(cookiesList[j].getName().substring(7).equals(bookIdList.get(i))) {
-										System.out.println(cookiesList[j].getName()+"============detlete book_id cookie================");
-										Cookie cookie = new Cookie(cookiesList[j].getName(),"");
-										cookie.setMaxAge(0);
-										response.addCookie(cookie);
-										System.out.println("북아이디지워짐~!~!~!~!~");
-									}else if(cookiesList[j].getName().equals("member_id")) {
-										member_id = null;
-										Cookie cookie = new Cookie(cookiesList[j].getName(),"");
-										cookie.setMaxAge(0);
-										cookie.setPath("/");
-										response.addCookie(cookie);
-										System.out.println("member_id delete from cookie--------------");
-									}
+									if(cookiesList[j].getName().length() > 6) {
+										if(cookiesList[j].getName().substring(7).equals(bookIdList.get(i))) {
+											System.out.println(cookiesList[j].getName()+"============detlete book_id cookie================");
+											Cookie cookie = new Cookie(cookiesList[j].getName(),"");
+											cookie.setMaxAge(0);
+											response.addCookie(cookie);
+											System.out.println("북아이디지워짐~!~!~!~!~");
+										}else if(cookiesList[j].getName().equals("member_id")) {
+											member_id = null;
+											Cookie cookie = new Cookie(cookiesList[j].getName(),"");
+											cookie.setMaxAge(0);
+											cookie.setPath("/");
+											response.addCookie(cookie);
+											System.out.println("member_id delete from cookie--------------");
+										}
+									}else {
+										continue;
+									}	
 								}
 							}
 						}

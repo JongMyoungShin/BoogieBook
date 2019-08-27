@@ -499,9 +499,9 @@ public class BookController {
 	      mav.addObject("request", request);
 	      mav.addObject("response",response);
 	      
-	      Cookie[] getCookie = request.getCookies();    
+	      Cookie[] getCookie = request.getCookies();
 	      String book_id  = request.getParameter("book_id");
-	      System.out.println(book_id);
+	      System.out.println(book_id );
 	      
 	      if(member_id != null) {
 	    	  System.out.println("going to addToCart");
