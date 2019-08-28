@@ -34,10 +34,9 @@ function getQuestionCode(question_code,root){
 				var a = document.createElement("a");
 				
 				a.setAttribute("id", "bn"+board_number_arr[i]);
-				a.setAttribute("onclick", "getAnswer("+board_number_arr[i]+");this.onclick=null");		
+				a.setAttribute("onclick", "getAnswer("+board_number_arr[i]+");this.onclick=null");	
 				a.style.fontSize = "1.2em";
-				a.innerHTML =  question_arr[i+1];
-				
+				a.innerHTML =  question_arr[i+1];				
 				li.appendChild(a);
 				
 				$("#faqBoard").append(li);
