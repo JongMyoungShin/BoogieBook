@@ -83,6 +83,7 @@ function getAnswer(board_number){
 
 function closeFaq(board_number){
 	//$("#bn"+board_number).attr("onclick","getAnswer("+board_number+");this.onclick=null");
-	$("p").remove("#pn"+board_number);
-	$("#button"+board_number).remove();
+//	$("p").remove("#pn"+board_number);
+//	$("#button"+board_number).remove();
+	location.reload();
 }
