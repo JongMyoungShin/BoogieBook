@@ -97,6 +97,7 @@ public class BookController {
 		return mav;
 	}
 
+	// 네이버 검색 API 사용을 위한 프록시 처리
 	@RequestMapping(value = "/recommend/recommendProcxy.do", method = RequestMethod.GET)
 	public String recommendProcxy(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		String clientId = "v8R5FbX43_upxHbbKBRy";
