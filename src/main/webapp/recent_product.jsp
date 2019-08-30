@@ -30,28 +30,27 @@
       
   	$(function (){
   		var path = "${root}/search/getcookies.do";
-  		 var leng=$(".imgvie").length;
-  		 leng=leng-3;
+  		 var leng=0;
   		var n=0;
   		var up=0;
   		
   		
   		$("#down_btn").click(function() {
-  	  		
-  	  	if(n>=leng){
-  	  		$("#bar_content > div:eq("+n+")").hide(0);
+  			
+  			if(n<leng-3){
+  	  		$("#bar_content > div:eq("+n+")").hide(0);  	  		
   	  		n++;
-  	  	}
-  	  	
+  	  		}
   	  	});
   		
   		
   		$("#up_btn").click(function() {
-  	  		var bar_content = document.getElementById("bar_content");
   	  		
-  	  		n--;
+  			if(n>0){
+  				n--;
   	  		$("#bar_content > div:eq("+n+")").show();
   	  		
+  			}
   	  	});
   		
   	   $.ajax({
@@ -94,7 +93,7 @@
   	     var product_cnt=document.getElementById("product_cnt");
   	   
   	   		product_cnt.innerHTML=data.length;
-  	         
+  	         leng=data.length;
   	       },
   	       error:function(){
   	               alert("에러입니다");

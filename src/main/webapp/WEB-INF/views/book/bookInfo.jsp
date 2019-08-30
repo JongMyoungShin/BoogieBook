@@ -64,8 +64,8 @@
    <div class="center">
       <div class="section1_l">
          <ul class="book_list">
-
          	<c:set var="pageName" value="${root}/koreanBook/koreanBookMain.do"/>
+       		  <c:set var="pageName" value="${root}/koreanBook/koreanBookMain.do"/>
          	<c:if test="${page == 'koreanBook'}">
          	<c:set var="pageName" value="${root}/koreanBook/koreanBookMain.do"/>
          	</c:if>
@@ -89,8 +89,7 @@
             <li><a href="${pageName}?bookType=여행">여행</a></li>
             <li><a href="${pageName}?bookType=잡지">잡지</a></li>
             <li><a href="${pageName}?bookType=만화">만화</a></li>
-            <li><a href="${pageName}?bookType=컴퓨터/IT">컴퓨터/IT</a></li>
-            
+            <li><a href="${pageName}?bookType=컴퓨터/IT">컴퓨터/IT</a></li>            
          </ul>
       </div>
       <div class="section1_r">
@@ -125,9 +124,10 @@
                                  수량 : <input type=hidden name="sell_price" value="${bookInfoDto.price}">
                                  <input type="text" name="amount" id="amount" value="1" size="3" onchange="change();">
                                  <input type="button" value="－" onclick="del();"><input type="button" value="＋" onclick="add();"><br>
-                                 
+                           	     
                                  금액 : <input type="text" class="sell_price" name="sum" size="11" readonly>원
                               </form>
+
                            </div>
                            <div class="delivery">배송비:&nbsp;<b style="font-size:1.2em;">무료</b></div>
                         </div>

@@ -442,6 +442,7 @@ public class BookController {
 		return mav;
 	}
 	
+
 	@RequestMapping(value = "/member/searchOrder.do", method = RequestMethod.GET)
 	public ModelAndView searchOrder(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
@@ -452,7 +453,10 @@ public class BookController {
 	
 		return mav;
 	}	
-				
+	
+	/*다중검색
+	 *  설명 : 기간, 가격대, 책이름, 저자, 출판사의 여러가지 조건에 맞는 검색결과를 처리하기위한 기능
+	 */
 	@RequestMapping(value = "/search/detailSearch.do", method = RequestMethod.GET)
 	public ModelAndView detailSearchMain(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
@@ -463,6 +467,7 @@ public class BookController {
 		return mav;
 	}
 
+	//검색결과로 이동하기위한 설정
 	@RequestMapping(value = "/search/searchOk.do", method = RequestMethod.GET)
 	public ModelAndView detailSearchResult(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
@@ -473,6 +478,9 @@ public class BookController {
 		return mav;
 	}
 
+	/* 다중검색 
+	 * 설명 : 다중검색을 통한 결과창으로 이동하기위한 컨트롤러
+	 * */
 	@RequestMapping(value = "/search/multiOk.do", method = RequestMethod.GET)
 	public ModelAndView multiResult(HttpServletRequest request, HttpServletResponse response) throws ParseException {
 		ModelAndView mav = new ModelAndView();
@@ -491,9 +499,9 @@ public class BookController {
 	      mav.addObject("request", request);
 	      mav.addObject("response",response);
 	      
-	      Cookie[] getCookie = request.getCookies();    
+	      Cookie[] getCookie = request.getCookies();
 	      String book_id  = request.getParameter("book_id");
-	      System.out.println(book_id);
+	      System.out.println(book_id );
 	      
 	      if(member_id != null) {
 	    	  System.out.println("going to addToCart");
@@ -618,20 +626,20 @@ public class BookController {
 	@RequestMapping(value="/book/bookInfo.do", method=RequestMethod.GET)
 	public ModelAndView writeBookInfo(HttpServletRequest request, HttpServletResponse response) {
 		// 쿠키생성
-				String book_id = request.getParameter("book_id");
-				Cookie[] getCookie = request.getCookies();
-				int cookiecnt = getCookie.length;
+		/* 책 상세 페이지로 이동하면 쿠키가 생성된다. */
+				String book_id = request.getParameter("book_id");//bookid를 받는다.
+				Cookie[] getCookie = request.getCookies();//local에 있는 모든 쿠키를 받아와 배열에 저장한다.
+				int cookiecnt = getCookie.length;//받아온 쿠키의 갯수를 저장한다.
 
-				Cookie setCookie = new Cookie("id" + book_id, book_id);
-				setCookie.setMaxAge(60 * 60);
-				setCookie.setPath("/");
-				response.addCookie(setCookie);
+				Cookie setCookie = new Cookie("id" + book_id, book_id);//쿠키의 이름과 value설정
+				setCookie.setMaxAge(60 * 60);//쿠키의 유지시간설정
+				setCookie.setPath("/");//쿠키의 저장위치 설정
+				response.addCookie(setCookie);//쿠키를 저장하기 위해 설정
 				
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("request", request);
 		mav.addObject("response", response); // 쿠키 설정으로인해 추가
 		bookInfoService.BookInfoMain(mav);
-
 		
 		return mav;
 	}
@@ -726,20 +734,27 @@ public class BookController {
 		}
 	}
 
+	
+	/* 검색어 자동완성기능
+	 * 설명 : 검색창에 책이름을 작성하면 검색창밑에 관련단어를 보여주고 클릭하여 완성할 수 있는 기능
+	 * 구동방식 : 
+	 * 		1. 데이터베이스에 저장된 모든 책이름 조회
+	 * 		2. id로 조회된 dto를 받아온다.
+	 * 		3. 책이름을 String배열에 저장
+	 * 		4. 책이름만 저장된 배열을 뷰에 전송
+	 */	
 	@ResponseBody
 	@RequestMapping(value = "/search/autocomplet.do", method = RequestMethod.GET)
 	public String[] autocomplete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		System.out.println("auto");
 		mav.addObject("request", request);
-		List<SearchDto> a = searchService.autocomplete(mav);
-		String ab = "";
-		String[] acc = new String[a.size()];
-		for (int i = 0; i < a.size(); i++) {
-			acc[i] = a.get(i).getBook_name();
+		List<SearchDto> book_dto = searchService.autocomplete(mav);//List로 책이름을 받아온다.
+		String[] BookNames = new String[book_dto.size()];//List의 갯수만큼 String 배열 생성
+		for (int i = 0; i < book_dto.size(); i++) {
+			BookNames[i] = book_dto.get(i).getBook_name();// 책이름만 뽑아와서 배열에 저장한다.
 		}
 
-		return acc;
+		return BookNames;//DB의 모든 책이름을 배열에 저장한다.
 	}
 
 	@RequestMapping(value = "/review/reviewWrite.do", method = RequestMethod.GET)
@@ -751,6 +766,9 @@ public class BookController {
 		reviewService.reviewWrite(mav);
 	}
 
+	/* 다권검색기능
+	 * 설명 : 여러개의 책이름을 \n으로 구분하여 받아와 한번에 검색할수 있는기능
+	 *  */
 	@RequestMapping(value = "/search/Several.do", method = RequestMethod.POST)
 	public ModelAndView severalSearch(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
@@ -1044,7 +1062,9 @@ public class BookController {
 
 
 
-	
+	/* 저장된 쿠키 조회기능
+	 * 설명 : local에 저장되어 있는 쿠키를 조회하여 최근본상품에 뿌려주기 위한 기능 
+	 * */
 	@ResponseBody
 	@RequestMapping(value = "/search/getcookies.do", method = RequestMethod.GET)
 	public List<SearchDto> getCookiees(HttpServletRequest request, HttpServletResponse response) {
@@ -1057,31 +1077,31 @@ public class BookController {
 	return list;	
 	}
 	
+	/* 쿠키삭제기능
+	 * 설명 : 최근본상품에 대해 저장된 쿠키를 삭제하는 기능
+	 * 
+	 * 구동방식 : 
+	 * 1. book_id를 받아온다.
+	 * 2. 같은 이름의 쿠키를 만들면고 만든이름의 쿠키의 유효시간을 0으로 설정한다.
+	 * 3. response객체에 설정된 쿠키를 추가하면 쿠키를 삭제할수 있다.
+	 *  */
 	@RequestMapping(value = "/search/delcookies.do", method = RequestMethod.GET)
 	public void delCookiees(HttpServletRequest request, HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println("test");
 		String id=request.getParameter("id");
-		id="id"+id;
+		id="id"+id;//저장되어 있는 쿠키명을 맞춰주기 위해서 id값 설정
 		Cookie[] cookies = request.getCookies();
 		
 		for(int i=0; i< cookies.length; i++){
-			System.out.println(cookies[i].getName());
-			if(cookies[i].getName().equals(id)) {
-			Cookie cookie=new Cookie(cookies[i].getName(),"");
-			cookie.setPath("/");
+			System.out.println(cookies[i].getName());//받아온 쿠키의 이름 조회
+			if(cookies[i].getName().equals(id)) {//저장된 쿠키의 이름과 요청페이지의 id값과 같은 쿠키 필터링
+			Cookie cookie=new Cookie(cookies[i].getName(),"");//같은이름으로 쿠키 생성
+			cookie.setPath("/");//쿠키 저장위치 설정
 			cookie.setMaxAge(0); // 유효시간을 0으로 설정
 			response.addCookie(cookie); // 응답 헤더에 추가
 
 			}
 		}
-		
-		/*
-		 * System.out.println("쿠키id : "+id); Cookie kc = new Cookie(id, null); //
-		 * choiceCookieName(쿠키 이름)에 대한 값을 null로 지정 kc.setMaxAge(0); // 유효시간을 0으로 설정
-		 * 
-		 * response.addCookie(kc);
-		 */
 		
 	}
 }

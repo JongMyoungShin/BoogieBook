@@ -70,7 +70,6 @@
 	<div class="result_top">전체 "${keyword}"검색결과 총 ${searchResult.size()}건</div>
 	<c:forEach var="searchDto" items="${searchPageResult}">
 	
-
             <div class="section1_r">
                 <div class="section2">
                     <div class="interest">

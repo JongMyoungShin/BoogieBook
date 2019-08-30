@@ -20,7 +20,7 @@
 	<script type="text/javascript">
 	
 	function appendYear(){
-
+// select의  option에 날짜를 생성하는 함수
 		var date = new Date();
 		var year = date.getFullYear();
 		var selectValue = document.getElementById("year");

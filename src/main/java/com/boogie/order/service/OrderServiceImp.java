@@ -298,7 +298,7 @@ public class OrderServiceImp implements OrderService {
 	public void addToCart(ModelAndView mav) {
 		Map<String, Object> map = mav.getModelMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		HttpSession  session = request.getSession();
+		HttpSession session = request.getSession();
 		int check=999;
 		
 		String member_id = (String) session.getAttribute("id");

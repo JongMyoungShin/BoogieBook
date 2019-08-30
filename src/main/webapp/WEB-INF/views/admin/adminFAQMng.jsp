@@ -10,7 +10,7 @@
     
     <link rel="stylesheet" type="text/css" href="${root}/resources/css/admin_content.css"/>
     <link rel="stylesheet" type="text/css" href="${root}/resources/css/admin/admin_content.css"/>
-    <link rel="stylesheet" type="text/css" href="${root}/resources/css/admin/admin_header.css"/>
+    <link rel="stylesheet" type="text/css" href="${root}/resources/css/admin/admin_header.css"/> 
 </head>
 <body>
        <jsp:include page="admin_header.jsp"></jsp:include>

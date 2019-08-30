@@ -4,25 +4,25 @@ import java.util.Date;
 
 public class SearchDto {
 	
-	private String type01;
-	private String type02;
-	private String type03;
+	private String type01;	//대분류
+	private String type02;	//중분류
+	private String type03;	//소분류
 	
-	private String img_path;
-	private String book_name;
-	private String author;
-	private String publisher;
+	private String img_path;	//이미지경로
+	private String book_name;	//책이름
+	private String author;		//작가
+	private String publisher;	//출판사
 	
-	private Date publish_date;
+	private Date publish_date;	//출판일
 	
-	private int price;
+	private int price;			//책가격
 	
-	private String book_id;
-	private String story;
+	private String book_id;		//책고유값
+	private String story;		//책간단한 내용
 	
-	private int sales_volume;
+	private int sales_volume;	//판매량
 	
-	private Date enrolled_date;
+	private Date enrolled_date;	//책 등록일
 
 	public String getType01() {
 		return type01;
