@@ -64,20 +64,16 @@
    <div class="center">
       <div class="section1_l">
          <ul class="book_list">
-<<<<<<< HEAD
+
          	<c:set var="pageName" value="${root}/koreanBook/koreanBookMain.do"/>
-         	
-=======
-         <c:set var="pageName" value="${root}/koreanBook/koreanBookMain.do"/>
->>>>>>> 926f1abda7d6947e96e294ec57f0d8d8dd94d71f
          	<c:if test="${page == 'koreanBook'}">
-         		<c:set var="pageName" value="${root}/koreanBook/koreanBookMain.do"/>
+         	<c:set var="pageName" value="${root}/koreanBook/koreanBookMain.do"/>
          	</c:if>
          	<c:if test="${page == 'newBook'}">
-         		<c:set var="pageName" value="${root}/newBook/newBookMain.do"/>
+         	<c:set var="pageName" value="${root}/newBook/newBookMain.do"/>
          	</c:if>
          	<c:if test="${page == 'bestSeller'}">
-         		<c:set var="pageName" value="${root}/bestSeller/bestSellerMain.do"/>
+         	<c:set var="pageName" value="${root}/bestSeller/bestSellerMain.do"/>
          	</c:if>
             <li><a href="${pageName}">종합</a></li>
             <li><a href="${pageName}?bookType=소설">소설</a></li>
