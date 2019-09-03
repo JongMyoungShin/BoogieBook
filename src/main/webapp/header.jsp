@@ -161,6 +161,9 @@
                   <li><a href="${root}/recommend/recommendMain.do">추천도서</a></li>
                </c:if>
                <li><a href="${root}/customerCenter/storeMap.do">매장안내</a></li>
+               <c:if test="${id=='admin'}">
+                  <li><a href="${root}/admin/admin.do">관리자페이지</a></li>
+               </c:if>
             </ul>
          </div>
       </div>

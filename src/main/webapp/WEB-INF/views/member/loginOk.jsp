@@ -10,7 +10,7 @@
 <body>
 	<c:set var="root" value="${pageContext.request.contextPath}"/>
 	
-	<c:if test="${check == 1 && id ne 'admin'}">
+	<c:if test="${check == 1 }">
 		<c:set var="id" value="${id}" scope="session"/> <%--application --%>
 		<c:set var="name" value="${name}" scope="session"/> <%--application --%>
 		<c:set var="snsNum" value="${snsNum}" scope="session"/> <%--application --%>
@@ -29,12 +29,7 @@
 		}
 		</script>
 	</c:if>
-	<c:if test="${id eq 'admin'}">
-		<script type="text/javascript">
-		opener.location.href ="${root}/admin/admin.do"; //부모창 리프레쉬
-	    self.close();
-		</script>
-	</c:if>
+	
 	
 	<c:if test="${check == 0}">
 		<script type="text/javascript">

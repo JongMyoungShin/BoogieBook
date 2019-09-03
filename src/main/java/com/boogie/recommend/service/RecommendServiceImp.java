@@ -71,21 +71,23 @@ public class RecommendServiceImp implements RecommendService {
 		String interest = recommandDao.getInterest(id);
 		BookAspect.logger.info(BookAspect.logMsg + "interest: " + interest);
 
-		// 관심분야 도서 가져오기
+		// 관심분야 도서 가져오기 : 사용자 회원 가입 시 입력했던 관심 분야로 도서 디비에서 해당 분야의 도서중 1권을 랜덤 추출
 		interestDto = recommandDao.getBookInterest(interest);
 		BookAspect.logger.info(BookAspect.logMsg + interestDto.toString());
 		}
 
-		// 평점 순으로 추천
-		List<String> markBookName = recommandDao.getMarkBookName();
+		// 평점 순으로 추천 : 사용자가 입력한 리뷰로 평점 평균을 내어 상위 4개를 가져옴
+		List<String> markBookName = recommandDao.getMarkBookName();		// 평점 평균 낸 상위 4권 책의 book_id를 가져옴
 		BookAspect.logger.info(BookAspect.logMsg + "markBookName.size:" + markBookName.size());
 
-		List<Float> markList = recommandDao.getMarkList();
+		List<Float> markList = recommandDao.getMarkList();		// 상위 평점 평균 4개를 가져옴
 		BookAspect.logger.info(BookAspect.logMsg + "markList.size:" + markList.size());
 
-		List<RecommendMarkDto> markBookList = recommandDao.getMarkBookList(markBookName);
+		List<RecommendMarkDto> markBookList = recommandDao.getMarkBookList(markBookName);	// 위에서 가져온 book_id를 가지고 해당 책 정보를 가져옴
 		BookAspect.logger.info(BookAspect.logMsg + "markBookList.size:" + markBookList.size());
 
+		
+		// 별 모양 아이콘 이미지를 뿌려주기 위해 각 평점에 적합한 이미지 링크를 String 배열에 넣음.
 		String[] markBookIcon = new String[4];
 		for (int i = 0; i < 4; i++) 
 		{
@@ -112,46 +114,25 @@ public class RecommendServiceImp implements RecommendService {
 			}
 		}
 		
-		
+		// 사용자 기반 추천을 위한 변수 선언 - 총 2권을 추천한다.
 		List<String[]> reviewForRecommand = new ArrayList<String[]>();
 		String[] recommend_imgs = new String[2];
 		String[] recommend_imgs_book_id = new String[2];
 		
 		//사용자 기반 추천 기능
-		if(id!=null) 
+		if(id!=null) // 로그인 했을 경우에만 해당 로직을 돈다.
 		{
 			
+			// 추천에 필요한 데이터를 가져옴 - 사용자 아이디, 책 아이디, 평점
 			reviewForRecommand = recommandDao.getReview();
 			BookAspect.logger.info(BookAspect.logMsg+"listSize: "+reviewForRecommand.size());
-	
-	//		for(int i = 0 ; i < reviewForRecommand.size() ; i++) {
-	//			System.out.println(reviewForRecommand.get(i)[0]+","+reviewForRecommand.get(i)[1]+","+reviewForRecommand.get(i)[2]);
-	//		}
+
 			
-	//		try {
-	//            /**
-	//             * csv 파일을 쓰기위한 설정
-	//             * 설명
-	//             * D:\\test.csv : csv 파일저장할 위치+파일명
-	//             * EUC-KR : 한글깨짐설정을 방지하기위한 인코딩설정(UTF-8로 지정해줄경우 한글깨짐)
-	//             * ',' : 배열을 나눌 문자열
-	//             * '"' : 값을 감싸주기위한 문자
-	//             **/
-	//            CSVWriter cw = new CSVWriter(new OutputStreamWriter(new FileOutputStream("data.csv")));
-	//            try {
-	//                 cw.writeAll(reviewForRecommand);
-	//            } catch (Exception e) {
-	//                e.printStackTrace();
-	//            } finally {
-	//                //무조건 CSVWriter 객체 close
-	//                cw.close();
-	//            }  
-	//        } catch (Exception e) {
-	//            e.printStackTrace();
-	//        }
-			
+			// 협업 필터링 알고리즘에 필요한 데이터 형식으로 파일 생성  
+			// (파일을 생성까지 하지 않고 바로 데이터를 넘기는 방식으로 구현하고 싶었으나 방법을 못찾고 파일을 생성해서 넘기는 방법으로 구현)
 			File file = new File("data.csv");
 		
+			// 해당 파일이 이미 존재하면 삭제
 			if(file.exists()){
 	            if(file.delete()){
 	                System.out.println("파일삭제 성공");
@@ -165,7 +146,7 @@ public class RecommendServiceImp implements RecommendService {
 			try
 			{
 				BufferedWriter fw = new BufferedWriter(new FileWriter("data.csv", true));
-				for(int i = 0 ; i < reviewForRecommand.size() ; i++)
+				for(int i = 0 ; i < reviewForRecommand.size() ; i++) // DB로부터 가져온 데이터를 csv 파일에 삽입
 				{
 					fw.write(reviewForRecommand.get(i)[0]+","+reviewForRecommand.get(i)[1]+","+reviewForRecommand.get(i)[2]);
 					fw.newLine();
@@ -182,10 +163,6 @@ public class RecommendServiceImp implements RecommendService {
 
 			
 			try {
-				
-				//CSVReader reader = new CSVReader(new FileReader(filename));
-	            // UTF-8
-	            // CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream(filename), "UTF-8"), ",", '"', 1);
 	
 				File out_file = new File("data.csv");
 				if(out_file.exists()){
@@ -195,13 +172,15 @@ public class RecommendServiceImp implements RecommendService {
 		            System.out.println("파일이 존재하지 않습니다.");
 		        }
 				
-				DataModel model = new FileDataModel(out_file);
+				
+				// 직접 구현 X 라이브러리로부터 가져와서 사용
+				DataModel model = new FileDataModel(out_file);  
 				
 				UserSimilarity similarity = new PearsonCorrelationSimilarity(model);
 				UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, model);
 				UserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
 	
-				//ID가 2번인 사람에게 3개의 아이템을 추천
+				//ID가 member_num인 사람에게 2개의 아이템을 추천
 				int member_num = recommandDao.getRMemberNum(id);
 				List<RecommendedItem> recommendations = recommender.recommend(member_num, 2);
 				
@@ -209,6 +188,7 @@ public class RecommendServiceImp implements RecommendService {
 				
 				
 				int i = 0;
+				// 뷰 페이지로 넘기기 위해 필요한 데이터를 형식을 맞춰 배열에 저장
 				for (RecommendedItem recommendation : recommendations) {
 					String result_book_id = String.format("%-20s", recommendation.getItemID());
 					//System.out.println(result_member_num);
