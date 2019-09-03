@@ -46,7 +46,7 @@
   		
   		$("#up_btn").click(function() {
   	  		
-  			if(n>0){
+  			if(n>=0){
   				n--;
   	  		$("#bar_content > div:eq("+n+")").show();
   	  		
