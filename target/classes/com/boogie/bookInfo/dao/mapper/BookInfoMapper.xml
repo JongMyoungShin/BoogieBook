@@ -42,7 +42,7 @@
    <select id="selectKoreanBook" parameterType="java.util.HashMap" resultType="com.boogie.bookInfo.dto.BookInfoDto">
   	<![CDATA[
    		select b.* from 
-   		(select rownum rnum, a.* from (select * from book where type02 like #{bookType})a)b 
+   		(select rownum rnum, a.* from (select * from book where type02 like #{bookType} order by book_name)a)b 
    		where rnum>=#{startRow} and rnum<=#{endRow} 
    	]]>
    </select>
